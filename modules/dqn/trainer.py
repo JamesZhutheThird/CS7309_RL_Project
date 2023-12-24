@@ -91,20 +91,19 @@ class Trainer(object):
                 log_file = open(self.log_path, "a")
                 log_file.write(f"Step: {agent.step} | Average Reward: {avg_reward:.3f} | Time: {time_interval:.2f}\n")
                 log_file.close()
-            if t % 10000 == 0:
+            if t % 50000 == 0:
                 self.agent.save_model(os.path.join(hyper_params["output-dir"],"checkpoints", f"checkpoint_{t*self.n_envs}.pt"))
 
         self.agent.save_model(os.path.join(hyper_params["output-dir"], "checkpoints", f"checkpoint_last.pt"))
 
     def plot(self):
-        pdb.set_trace()
         env_name = self.params["env"]
         plt.figure(figsize=(10, 5))
         plt.plot(range(0, self.train_steps, self.n_envs * 1000)[1:], self.reward_list)
         plt.xlabel("Training Steps")
         plt.ylabel("Average Reward")
         plt.title(f"Reward vs. Steps for DQN on {env_name}")
-        plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: "{:,.0f}".format(x / 1000) + "k"))
+        plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: "{:,.0f}".format(x/1000) + "k"))
         plt.savefig(os.path.join(hyper_params["output-dir"], f"Rewards_DQN_{env_name}.pdf"), bbox_inches="tight")
         print(f'Save results to {os.path.join(hyper_params["output-dir"], f"Rewards_DQN_{env_name}.pdf")}')
         plt.close()
