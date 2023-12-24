@@ -5,3 +5,4 @@ numpy
 opencv_python
 pandas
 tqdm
+cython==3.0.0a10
