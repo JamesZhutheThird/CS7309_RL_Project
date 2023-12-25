@@ -2,11 +2,15 @@
 
 ## Overview
 
-这是强化学习理论与算法Final Project仓库。本次项目在Atari和MuJoco环境中分别使用了value-based 和 policy-based算法进行测试。具体地，对于Atari环境，使用DQN算法分别对VideoPinball, Breakout, Pong, Boxing进行了测试。对于MuJoco环境，使用PPO和TD3算法分别对Hopper, Humanoid, HalfCheetah, Ant进行了测试。
+这是强化学习理论与算法Final Project仓库。本次项目在Atari和MuJoco环境中分别使用了value-based 和 policy-based算法进行测试。具体地，对于Atari环境，使用DQN算法分别对Boxing, Breakout, VideoPinball, 和Pong进行了测试。对于MuJoco环境，使用PPO和TD3算法分别对Ant,
+HalfCheetah, Hopper, 和Humanoid进行了测试。
 
 ## Environment Setup
 
+***该项目环境配置仅在Ubuntu上得到验证***
+
 首先创建conda环境，并安装PyTorch，得益于PyTorch的高版本兼容性，本次实验使用最新版Torch环境
+
 ```shell
 conda create -n RL_3.9 python=3.9
 conda activate RL_3.9
@@ -14,19 +18,24 @@ pip install torch torchvision # pip install torch==2.1.2 torchvision==0.16.2
 ```
 
 然后安装gym环境，由于不同版本间API差距较大，本次实验使用`gym==0.21.0`
+
 ```shell
 pip install gym==0.21.0
 pip install ale_py==0.7.5
 ```
+
 如果遇到安装问题，可以参考Troubleshooting部分。
 
 然后执行以下脚本安装剩余依赖文件,
+
 ```shell
 pip install -r requirements.txt
 ```
 
 ## File Structure
+
 本仓库所有文件结构和功能如下图所示：
+
 ```shell
 ├── modules                                             # 本次实验使用到的模块
 │   ├── dqn                                             # 模型文件夹
@@ -44,21 +53,23 @@ pip install -r requirements.txt
 │   │   │   ├── checkpoints                             # 模型文件
 │   │   │   ├── hyper_params.json                       # 实验超参数
 │   │   │   ├── log.txt                                 # 实验部分关键输出
-│   │   │   └── Reward_DQN_BoxingNoFrameskip-v4.pdf     # 实验Reward折线图
+│   │   │   └── Reward_DQN_BoxingNoFrameskip-v4.pdf     # 实验回报曲线图
 │   │   └── ...
 │   ├── PPO
 │   └── TD3
 ├── slurm_logs                                          # slurm日志
 ├── README.md                                           # 本文件
-├── requirements.txt
+├── requirements.txt                                    # pip包列表
 ├── run.py                                              # 实验主程序
-├── run.sbatch
-├── run.sh
+├── run.sbatch                                          # slurm脚本示例
+├── run.sh                                              # shell脚本示例
 └── LICENSE
 ```
 
 ## Run Experiments
+
 使用下列指令以进行测试，所有结果将自动保存在`results`文件夹下，我们使用`argparse`库对参数进行了封装，可以通过`python run.py -h`查看所有可用参数，请注意并非所有参数对所有算法都有效。
+
 ```shell
 conda activate RL_3.9
 
@@ -78,10 +89,28 @@ python run.py --model TD3 --env_name Hopper-v2 --num_steps 2000000 --n_envs 16
 python run.py --model TD3 --env_name Humanoid-v2 --num_steps 2000000 --n_envs 16
 ```
 
+## Experiment Results
+
+实验结果展示如下
+
+### DQN
+
+![](./figures/dqn_results.png)
+
+### PPO
+
+![](./figures/ppo_results.png)
+
+### TD3
+
+![](./figures/td3_results.png)
+
 ## Troubleshooting
 
 ### 1. gym安装问题
+
 安装时如果遇到以下问题
+
 ```shell
 Collecting gym==0.21.0
   Using cached gym-0.21.0.tar.gz (1.5 MB)
@@ -105,24 +134,30 @@ hint: See above for details.
 ```
 
 则需要升级`setuptools`和`wheel`版本
+
 ```shell
 pip install --upgrade setuptools
 pip install --user --upgrade wheel
 ```
 
 ### 2. gym无法找到环境
+
 如果执行脚本时遇到以下问题
+
 ```shell
 gym.error.Error: We're Unable to find the game "Breakout". Note: Gym no longer distributes ROMs. If you own a license to use the necessary ROMs for research purposes you can download them via `pip install gym[accept-rom-license]`. Otherwise, you should try importing "Breakout" via the command `ale-import-roms`. 
 ```
 
 则需要执行以下命令
+
 ```shell
 pip install gym[accept-rom-license]
 ```
 
 ### 3. mujoco安装相关问题
+
 首先参考[官方文档](https://github.com/openai/mujoco-py/)安装mujoco和mujoco-py，在`import mujoco_py`时可能会遇到以下问题
+
 ```shell
 import mujoco_py
 Compiling /dssg/home/acct-csyk/csyk-lab/.conda/envs/RL_3.9/lib/python3.9/site-packages/mujoco_py/cymj.pyx because it changed.
@@ -150,11 +185,13 @@ Error compiling Cython file:
 ```
 
 此时需要升级`cython`至对应版本
+
 ```shell
 pip install cython==3.0.0a10
 ```
 
 此时可能会遇到第二个问题
+
 ```shell
 import mujoco_py
 Compiling /dssg/home/acct-csyk/csyk-lab/.conda/envs/RL_3.9/lib/python3.9/site-packages/mujoco_py/cymj.pyx because it changed.
@@ -167,11 +204,13 @@ compilation terminated.
 ```
 
 此时需要安装`glew`库
+
 ```shell
 apt install libosmesa6-dev libgl1-mesa-glx libglfw3
 ```
 
 如果安装在没有root权限的环境下，则可以按照这个[issue](https://github.com/openai/mujoco-py/issues/627)的方法安装
+
 ```shell
 conda install -c conda-forge glew
 conda install -c conda-forge mesalib
