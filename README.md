@@ -62,20 +62,20 @@ pip install -r requirements.txt
 ```shell
 conda activate RL_3.9
 
-python run.py --model DQN --env_name VideoPinball-ramNoFrameskip-v4 --num_steps 10000000 --n_envs 16
+python run.py --model DQN --env_name BoxingNoFrameskip-v4 --num_steps 10000000 --n_envs 16
 python run.py --model DQN --env_name BreakoutNoFrameskip-v4 --num_steps 10000000 --n_envs 16
 python run.py --model DQN --env_name PongNoFrameskip-v4 --num_steps 10000000 --n_envs 16
-python run.py --model DQN --env_name BoxingNoFrameskip-v4 --num_steps 10000000 --n_envs 16
+python run.py --model DQN --env_name VideoPinball-ramNoFrameskip-v4 --num_steps 10000000 --n_envs 16
 
+python run.py --model PPO --env_name Ant-v2 --epoch 5000 --n_envs 16
+python run.py --model PPO --env_name HalfCheetah-v2 --epoch 5000 --n_envs 16
 python run.py --model PPO --env_name Hopper-v2 --epoch 5000 --n_envs 16
 python run.py --model PPO --env_name Humanoid-v2 --epoch 5000 --n_envs 16
-python run.py --model PPO --env_name HalfCheetah-v2 --epoch 5000 --n_envs 16
-python run.py --model PPO --env_name Ant-v2 --epoch 5000 --n_envs 16
 
+python run.py --model TD3 --env_name Ant-v2 --num_steps 2000000 --n_envs 16
+python run.py --model TD3 --env_name HalfCheetah-v2 --num_steps 2000000 --n_envs 16
 python run.py --model TD3 --env_name Hopper-v2 --num_steps 2000000 --n_envs 16
 python run.py --model TD3 --env_name Humanoid-v2 --num_steps 2000000 --n_envs 16
-python run.py --model TD3 --env_name HalfCheetah-v2 --num_steps 2000000 --n_envs 16
-python run.py --model TD3 --env_name Ant-v2 --num_steps 2000000 --n_envs 16
 ```
 
 ## Troubleshooting

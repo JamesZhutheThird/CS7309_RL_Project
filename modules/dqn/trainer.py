@@ -35,7 +35,7 @@ hyper_params = {
 
 
 class Trainer(object):
-    def __init__(self, env, agent, params) :
+    def __init__(self, env, agent, params):
         self.env = env
         self.agent = agent
         self.params = params
@@ -51,9 +51,9 @@ class Trainer(object):
         self.learning_freq = params["learning-freq"]
 
         self.log_path = os.path.join(hyper_params["output-dir"], f"log.txt")
-        log_file= open(self.log_path,"w")
+        log_file = open(self.log_path, "w")
         log_file.write(f"Model: DQN\nEnvironment: {hyper_params['env']}\n")
-        log_file.write(f"{'='*40}\n")
+        log_file.write(f"{'=' * 40}\n")
         log_file.close()
 
     def train(self):
@@ -92,18 +92,18 @@ class Trainer(object):
                 log_file.write(f"Step: {agent.step} | Average Reward: {avg_reward:.3f} | Time: {time_interval:.2f}\n")
                 log_file.close()
             if t % 50000 == 0:
-                self.agent.save_model(os.path.join(hyper_params["output-dir"],"checkpoints", f"checkpoint_{t*self.n_envs}.pt"))
+                self.agent.save_model(os.path.join(hyper_params["output-dir"], "checkpoints", f"checkpoint_{t * self.n_envs}.pt"))
 
         self.agent.save_model(os.path.join(hyper_params["output-dir"], "checkpoints", f"checkpoint_last.pt"))
 
     def plot(self):
         env_name = self.params["env"]
         plt.figure(figsize=(10, 5))
-        plt.plot(range(0, self.train_steps, self.n_envs * 1000)[1:], self.reward_list)
+        plt.plot(range(0, self.train_steps + 1, self.n_envs * 1000)[1:], self.reward_list)
         plt.xlabel("Training Steps")
         plt.ylabel("Average Reward")
         plt.title(f"Reward vs. Steps for DQN on {env_name}")
-        plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: "{:,.0f}".format(x/1000) + "k"))
+        plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: "{:,.0f}".format(x / 1000) + "k"))
         plt.savefig(os.path.join(hyper_params["output-dir"], f"Rewards_DQN_{env_name}.pdf"), bbox_inches="tight")
         print(f'Save results to {os.path.join(hyper_params["output-dir"], f"Rewards_DQN_{env_name}.pdf")}')
         plt.close()

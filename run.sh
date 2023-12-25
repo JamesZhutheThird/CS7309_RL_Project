@@ -1,6 +1,7 @@
 salloc -p debuga100 -n 1 -N 1 --gres=gpu:1 --cpus-per-task=16 --mem=120G
 salloc -p debug64c512g -n 1 -N 1 --gres=gpu:0 --cpus-per-task=16 --mem=120G
 
+cd zcz72/RL
 conda activate RL_3.9
 
 python run.py --model DQN --env_name VideoPinball-ramNoFrameskip-v4 --num_steps 10000000 --n_envs 16

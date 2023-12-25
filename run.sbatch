@@ -5,7 +5,7 @@
 #SBATCH -n 1
 #SBATCH -c 16
 #SBATCH --mem=120G
-#SBATCH -a 0-11
+#SBATCH -a 0,4
 #SBATCH --output=./slurm_logs/rl-%A-%a.out
 #SBATCH --error=./slurm_logs/rl-%A-%a.out
 #SBATCH --mail-type=ALL
