@@ -101,10 +101,10 @@ class Trainer(object):
                 episode_num += 1
 
                 # Evaluate episode
-            if (t+1) % self.eval_every == 0:
+            if (t + 1) % self.eval_every == 0:
                 self.evaluations.append(self.eval())
 
-            if (t + 1) % (self.eval_every*100) == 0:
+            if (t + 1) % (self.eval_every * 100) == 0:
                 agent.save(os.path.join(hyper_params["output-dir"], "checkpoints", f"checkpoint_{t + 1}.pt"))
 
         agent.save(os.path.join(hyper_params["output-dir"], "checkpoints", f"checkpoint_last.pt"))
@@ -131,14 +131,15 @@ class Trainer(object):
     def plot(self):
         env_name = self.params["env"]
         plt.figure(figsize=(10, 5))
-        plt.plot(np.arange(0, self.train_steps+1, self.eval_every)[1:], self.evaluations)
+        plt.plot(np.arange(0, self.train_steps + 1, self.eval_every)[1:], self.evaluations)
         plt.xlabel("Steps")
         plt.ylabel("Reward")
         plt.title('Reward vs. Steps for TD3 on {}'.format(env_name))
-        plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: "{:,.0f}".format(x/1000) + "k"))
+        plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: "{:,.0f}".format(x / 1000) + "k"))
         plt.savefig(os.path.join(hyper_params["output-dir"], f"Rewards_TD3_{env_name}.pdf"), bbox_inches="tight")
         print(f'Save results to {os.path.join(hyper_params["output-dir"], f"Rewards_TD3_{env_name}.pdf")}')
         plt.close()
+
 
 def train_td3(args):
     hyper_params["env"] = args.env_name.removesuffix("-v2")
@@ -146,6 +147,10 @@ def train_td3(args):
     hyper_params["batch-size"] = args.batch_size
     hyper_params["device"] = args.device
     hyper_params["output-dir"] = args.output_dir
+
+    # save hyper_params
+    with open(args.output_dir + "hyper_params.json", "w") as f:
+        json.dump(hyper_params, f, indent=4)
 
     env = gym.make(args.env_name)
     replay_buffer = ReplayBuffer(hyper_params["replay-buffer-size"])

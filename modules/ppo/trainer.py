@@ -1,3 +1,4 @@
+import json
 import os
 import time
 
@@ -134,6 +135,10 @@ def train_ppo(args):
     hyper_params["batch-size"] = args.batch_size
     hyper_params["device"] = args.device
     hyper_params["output-dir"] = args.output_dir
+
+    # save hyper_params
+    with open(args.output_dir + "hyper_params.json", "w") as f:
+        json.dump(hyper_params, f, indent=4)
 
     env = gym.make(args.env_name)
     state_size = env.observation_space.shape[0]

@@ -5,8 +5,8 @@ import numpy as np
 import torch
 import json
 
-atari_env = ["VideoPinball-ramNoFrameskip-v4", "BreakoutNoFrameskip-v4", "PongNoFrameskip-v4", "BoxingNoFrameskip-v4"]
-mujoco_env = ["Hopper-v2", "Humanoid-v2", "HalfCheetah-v2", "Ant-v2"]
+atari_env = ["BoxingNoFrameskip-v4", "BreakoutNoFrameskip-v4", "PongNoFrameskip-v4", "VideoPinball-ramNoFrameskip-v4"]
+mujoco_env = ["Ant-v2", "HalfCheetah-v2","Hopper-v2", "Humanoid-v2" ]
 
 def main():
     parser = argparse.ArgumentParser(description="Train rl model on gym environments")
