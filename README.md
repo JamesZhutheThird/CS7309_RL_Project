@@ -2,9 +2,12 @@
 
 ## Overview
 
-这是强化学习理论与算法Final Project仓库。本次项目在Atari和MuJoco环境中分别使用了value-based 和 policy-based算法进行测试。具体地，对于Atari环境，使用DQN算法分别对VideoPinball, Breakout, Pong, Boxing进行了测试。对于MuJoco环境，使用PPO和TD3算法分别对Hopper, Humanoid, HalfCheetah, Ant进行了测试。
+这是强化学习理论与算法Final Project仓库。本次项目在Atari和MuJoco环境中分别使用了value-based 和 policy-based算法进行测试。具体地，对于Atari环境，使用DQN算法分别对Boxing, Breakout, VideoPinball, 和Pong进行了测试。对于MuJoco环境，使用PPO和TD3算法分别对Ant,
+HalfCheetah, Hopper, 和Humanoid进行了测试。
 
 ## Environment Setup
+
+***该项目环境配置仅在Ubuntu上得到验证***
 
 首先创建conda环境，并安装PyTorch，得益于PyTorch的高版本兼容性，本次实验使用最新版Torch环境
 ```shell
@@ -44,16 +47,16 @@ pip install -r requirements.txt
 │   │   │   ├── checkpoints                             # 模型文件
 │   │   │   ├── hyper_params.json                       # 实验超参数
 │   │   │   ├── log.txt                                 # 实验部分关键输出
-│   │   │   └── Reward_DQN_BoxingNoFrameskip-v4.pdf     # 实验Reward折线图
+│   │   │   └── Reward_DQN_BoxingNoFrameskip-v4.pdf     # 实验回报曲线图
 │   │   └── ...
 │   ├── PPO
 │   └── TD3
 ├── slurm_logs                                          # slurm日志
 ├── README.md                                           # 本文件
-├── requirements.txt
+├── requirements.txt                                    # pip包列表
 ├── run.py                                              # 实验主程序
-├── run.sbatch
-├── run.sh
+├── run.sbatch                                          # slurm脚本示例
+├── run.sh                                              # shell脚本示例
 └── LICENSE
 ```
 
@@ -77,6 +80,22 @@ python run.py --model TD3 --env_name HalfCheetah-v2 --num_steps 2000000 --n_envs
 python run.py --model TD3 --env_name Hopper-v2 --num_steps 2000000 --n_envs 16
 python run.py --model TD3 --env_name Humanoid-v2 --num_steps 2000000 --n_envs 16
 ```
+
+## Experiment Results
+
+实验结果展示如下
+
+### DQN
+
+![](./figures/dqn_results.png)
+
+### PPO
+
+![](./figures/ppo_results.png)
+
+### TD3
+
+![](./figures/td3_results.png)
 
 ## Troubleshooting
 
